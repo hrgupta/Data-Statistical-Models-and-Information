@@ -32,7 +32,7 @@ var(county$per_capita_income)
 
 var(county$fitted) + var(county$resid)
 
-#get the percent of fitted value to per capita income value
+# get the percent of fitted value to per capita income value
 
 var(county$fitted)/var(county$per_capita_income)
 
@@ -70,7 +70,7 @@ var(county_median$fitted)
 
 var(countymedian$fitted) + var(countymedian$resid)
 
-#get the percent of fitted value to poverty value
+# get the percent of fitted value to poverty value
 
 var(county_median$fitted)/var(county_median$poverty)
 
@@ -108,6 +108,6 @@ var(county_percap$fitted)
 
 var(county_percap$fitted) + var(county_percap$resid)
 
-#get the percent of fitted value to poverty value
+# get the percent of fitted value to poverty value
 
 var(county_percap$fitted)/var(county_percap$poverty)
