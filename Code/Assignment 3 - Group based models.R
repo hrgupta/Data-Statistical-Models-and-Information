@@ -7,14 +7,14 @@ county = read.csv( "countyComplete.csv" )
 cm = mean( county$per_capita_income ~ county$state ) 
 cm
 
-cmf = function(x){ return(km[[x]]) }
+cmf = function(x){ return(cm[[x]]) }
 
-cmff = function(v) { sapply(v,kmf) }
+cmff = function(v) { sapply(v,cmf) }
 
 # code to add columns to the dataset
 
-county = transform(county, fitted = cmff(state))
-county = transform(county, resid = per_capita_income ~ fitted)
+county = transform(county, fitted = cmff(county$state))
+county = transform(county, resid = county$per_capita_income - county$fitted)
 
 # get variance for fitted variable
 
@@ -38,7 +38,7 @@ var(county$fitted)/var(county$per_capita_income)
 
 # code for first explanatory variable
 
-medianf = sapply( county_median$median_household_income, function(x){ if( x < 40000 ) return( "low income" ) else if (x >= 40000 & x < 60000) return( "middle income" ) else return( "high income" )}) 
+medianf = sapply( county$median_household_income, function(x){ if( x < 40000 ) return( "low income" ) else if (x >= 40000 & x < 60000) return( "middle income" ) else return( "high income" )}) 
 
 county_median = county
 
@@ -50,9 +50,9 @@ mmff = function(v) { sapply( v, mmf ) }
 
 # code to add columns to the dataset
 
-county_median =  transform( county_median, fitted = mmmf( county_median $ median_household_income ))
+county_median =  transform( county_median, fitted = mmff( county_median $ median_household_income ))
 
-county_median =  transform( county_median, resid = county_median$poverty ~ fitted )
+county_median =  transform( county_median, resid = county_median$poverty - fitted )
 
 # get variance for residual
 
@@ -68,7 +68,7 @@ var(county_median$fitted)
 
 # code to get added value of fitted and residual
 
-var(countymedian$fitted) + var(countymedian$resid)
+var(county_median$fitted) + var(county_median$resid)
 
 # get the percent of fitted value to poverty value
 
@@ -76,7 +76,7 @@ var(county_median$fitted)/var(county_median$poverty)
 
 # code for second explanatory variable
 
-percapf = sapply(county_percap$per_capita_income, function(x){ if(x<20000) return("low income") else if (x>=20000 & x < 40000) return("middle income") else return("high income")})
+percapf = sapply(county$per_capita_income, function(x){ if(x<20000) return("low income") else if (x>=20000 & x < 40000) return("middle income") else return("high income")})
 
 county_percap = county
 
@@ -90,7 +90,7 @@ pmff = function(v){ sapply(v, pmf)}
 
 county_percap =  transform(county_percap, fitted = pmff(county_percap$per_capita_income))
 
-county_percap =  transform(county_percap, resid = county_percap$poverty ~ fitted)
+county_percap =  transform(county_percap, resid = county_percap$poverty - fitted)
 
 # get variance for residual
 
